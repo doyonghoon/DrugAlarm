@@ -3,6 +3,7 @@ package spencerdo.com.drugalarm.activity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import butterknife.Bind;
 import spencerdo.com.drugalarm.R;
 
@@ -33,5 +34,14 @@ public class CreateDrugActivity extends BaseActivity {
       actionBar.setDisplayHomeAsUpEnabled(true);
       actionBar.setDisplayShowHomeEnabled(true);
     }
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case android.R.id.home:
+        finish();
+        return true;
+    }
+    return false;
   }
 }

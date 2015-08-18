@@ -10,7 +10,7 @@
 
   <fragment
       android:id="@+id/fragment"
-      android:name="spencerdo.com.drugalarm.MainFragment"
+      android:name="spencerdo.com.drugalarm.fragment.MainFragment"
       tools:layout="@layout/frag_main"
       android:layout_width="match_parent"
       android:layout_height="match_parent"/>

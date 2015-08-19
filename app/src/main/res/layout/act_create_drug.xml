@@ -1,14 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/create_root"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
   <include layout="@layout/toolbar"/>
 
-  <TextView
+  <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:text="create drug"/>
+      android:orientation="vertical"
+      android:padding="16dp">
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/create_name_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp">
+      <EditText
+          android:id="@+id/create_name"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:hint="Name of the drug"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <RadioGroup
+        android:id="@+id/create_timer_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+      <RadioButton
+          android:id="@+id/min10"
+          android:text="10mins"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"/>
+      <RadioButton
+          android:id="@+id/min15"
+          android:text="15mins"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"/>
+      <RadioButton
+          android:id="@+id/min30"
+          android:text="30mins"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"/>
+      <RadioButton
+          android:id="@+id/min60"
+          android:text="60mins"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"/>
+    </RadioGroup>
+    
+    <Button
+        android:id="@+id/create_custom_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="custom minutes"
+        style="?android:attr/borderlessButtonStyle"/>
+
+  </LinearLayout>
 
 </LinearLayout>

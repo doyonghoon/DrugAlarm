@@ -4,16 +4,17 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import butterknife.Bind;
 import butterknife.OnClick;
 import io.realm.Realm;
-import io.realm.RealmResults;
+import java.util.List;
 import spencerdo.com.drugalarm.R;
 import spencerdo.com.drugalarm.activity.CreateTimerActivity;
+import spencerdo.com.drugalarm.adapter.MainAdapter;
 import spencerdo.com.drugalarm.model.DrugTimer;
-import spencerdo.com.drugalarm.util.WLog;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -25,12 +26,16 @@ public class MainFragment extends BaseFragment {
   @Bind(R.id.main_create) FloatingActionButton mActionButton;
   @Bind(R.id.main_list) RecyclerView mList;
 
+  private MainAdapter mAdapter;
+
   @Override int getLayoutId() {
     return R.layout.frag_main;
   }
 
   @Override public void onViewCreated(View view, Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
+    mAdapter = new MainAdapter();
+    setupCardRecyclerView();
   }
 
   @OnClick(R.id.main_create) void onClickCreateDrug() {
@@ -41,13 +46,22 @@ public class MainFragment extends BaseFragment {
   @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
     if (requestCode == CREATE_TIMER && resultCode == Activity.RESULT_OK) {
-      Realm realm = Realm.getInstance(getActivity());
-      RealmResults<DrugTimer> query = realm.where(DrugTimer.class)
-          .findAll();
-
-      for (DrugTimer t : query) {
-        WLog.i("name: " + t.getName() + ", time: " + t.getMilliseconds());
-      }
+      // update timers
+      mAdapter.setItems(getTimers());
     }
+  }
+
+  private void setupCardRecyclerView() {
+    mAdapter.setItems(getTimers());
+    mList.setHasFixedSize(true);
+    LinearLayoutManager linearLayoutManager =
+        new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+    mList.setLayoutManager(linearLayoutManager);
+    mList.setAdapter(mAdapter);
+  }
+
+  private List<DrugTimer> getTimers() {
+    Realm realm = Realm.getInstance(getActivity());
+    return realm.where(DrugTimer.class).findAll();
   }
 }

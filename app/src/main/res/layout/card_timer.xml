@@ -19,26 +19,27 @@
       android:background="@android:color/white">
 
     <TextView
+        android:id="@+id/card_timer_alarm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/card_text_remaining_minutes"
+        android:textSize="16sp"
+        android:textColor="@color/secondary_text"/>
+
+    <TextView
         android:id="@+id/card_timer_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="title"
-        android:textSize="21sp"
+        android:layout_marginTop="20dp"
+        android:textSize="24sp"
         android:textColor="@android:color/black"/>
-
-    <TextView
-        android:id="@+id/card_timer_minutes"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="minutes"
-        android:textSize="16sp"
-        android:textColor="@color/secondary_text"/>
 
     <TextView
         android:id="@+id/card_timer_fixed_minutes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="fixed minutes"
+        android:layout_marginTop="8dp"
+        android:text="@string/card_text_template_fixed_minutes"
         android:textSize="16sp"
         android:textColor="@color/secondary_text"/>
 
@@ -46,20 +47,22 @@
         android:id="@+id/card_timer_repeat_count"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Repeated 0"
+        android:text="@string/card_text_repeated_count"
         android:textSize="16sp"
         android:textColor="@color/secondary_text"/>
 
-    <Button
+    <TextView
         android:id="@+id/card_timer_refresh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="0dp"
+        android:layout_marginTop="16dp"
         android:textSize="16sp"
-        android:padding="0dp"
-        android:text="REFRESH"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingRight="10dp"
+        android:text="@string/refresh"
         android:textColor="@android:color/black"
-        style="?attr/borderlessButtonStyle"/>
+        android:background="@drawable/bg_refresh"/>
 
   </LinearLayout>
 

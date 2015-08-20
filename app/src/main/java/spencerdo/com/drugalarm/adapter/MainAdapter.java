@@ -1,10 +1,10 @@
 package spencerdo.com.drugalarm.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -42,7 +42,13 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.TimerHolder> {
 
   @Override public void onBindViewHolder(TimerHolder holder, final int position) {
     holder.mName.setText(mTimers.get(position).getName());
-    holder.mMinutes.setText(getMinites(mTimers.get(position).getNextAlarmTime()));
+    holder.mMinutes.setText(getMinites(holder.getContext(), mTimers.get(position)
+        .getNextAlarmTime()));
+    holder.mMinutes.setTextColor(holder.getContext()
+        .getResources()
+        .getColor(
+            mTimers.get(position).getNextAlarmTime() < Calendar.getInstance().getTime().getTime()
+                ? R.color.red : R.color.secondary_text));
     holder.mFixedMinutes.setText(mTimers.get(position).getFixedMinutes() + " fixed minutes");
     holder.mRepeatedCount.setText(mTimers.get(position).getRepeatedCount() + " repeated");
     holder.mRefreshButton.setOnClickListener(new View.OnClickListener() {
@@ -58,26 +64,30 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.TimerHolder> {
     return mTimers.size();
   }
 
-  private String getMinites(long milliseconds) {
+  private String getMinites(Context c, long milliseconds) {
     long now = Calendar.getInstance().getTime().getTime();
     long minutes = now - milliseconds;
-    boolean alreadyOver = now > milliseconds;
-    minutes = Math.abs(minutes);
-    return String.format("%d %s", TimeUnit.MILLISECONDS.toMinutes(minutes), (alreadyOver
-        ? " Minutes Over" : "Minutes Left"));
+    return String.format(c.getString(R.string.card_text_remaining_minutes), TimeUnit.MILLISECONDS.toMinutes(minutes));
   }
 
   public static class TimerHolder extends RecyclerView.ViewHolder {
 
     @Bind(R.id.card_timer_name) TextView mName;
-    @Bind(R.id.card_timer_minutes) TextView mMinutes;
-    @Bind(R.id.card_timer_refresh) Button mRefreshButton;
+    @Bind(R.id.card_timer_alarm) TextView mMinutes;
+    @Bind(R.id.card_timer_refresh) TextView mRefreshButton;
     @Bind(R.id.card_timer_repeat_count) TextView mRepeatedCount;
     @Bind(R.id.card_timer_fixed_minutes) TextView mFixedMinutes;
 
+    private Context mContext;
+
     public TimerHolder(View itemView) {
       super(itemView);
+      mContext = itemView.getContext();
       ButterKnife.bind(this, itemView);
+    }
+
+    public Context getContext() {
+      return mContext;
     }
   }
 }

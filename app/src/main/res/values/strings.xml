@@ -2,4 +2,9 @@
   <string name="app_name">DrugAlarm</string>
   <string name="hello_world">Hello world!</string>
   <string name="action_settings">Settings</string>
+  <string name="card_text_template_fixed_minutes">alarm every %d minutes</string>
+  <string name="card_text_repeated_count">%d times repeated</string>
+  <string name="card_text_remaining_minutes">%d minutes left</string>
+  <string name="refresh">REFRESH</string>
+
 </resources>

@@ -1,6 +1,5 @@
 package spencerdo.com.drugalarm.adapter;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +8,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import io.realm.Realm;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -49,7 +47,8 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.TimerHolder> {
     holder.mRepeatedCount.setText(mTimers.get(position).getRepeatedCount() + " repeated");
     holder.mRefreshButton.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-        refreshTimer(v.getContext(), position);
+        DrugTimer refreshed = TimerUtils.refreshTimer(v.getContext(), mTimers.get(position));
+        TimerUtils.startAlarm(v.getContext(), refreshed.getNextAlarmTime());
         notifyDataSetChanged();
       }
     });
@@ -57,17 +56,6 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.TimerHolder> {
 
   @Override public int getItemCount() {
     return mTimers.size();
-  }
-
-  private void refreshTimer(Context c, int position) {
-    String name = mTimers.get(position).getName();
-    Realm realm = Realm.getInstance(c);
-    realm.where(DrugTimer.class).equalTo("name", name).findFirst();
-    realm.beginTransaction();
-    DrugTimer timer = realm.where(DrugTimer.class).equalTo("name", name).findFirst();
-    timer.setRepeatedCount(timer.getRepeatedCount() + 1);
-    timer.setNextAlarmTime(TimerUtils.createNextAlarmDate(timer.getFixedMinutes()));
-    realm.commitTransaction();
   }
 
   private String getMinites(long milliseconds) {

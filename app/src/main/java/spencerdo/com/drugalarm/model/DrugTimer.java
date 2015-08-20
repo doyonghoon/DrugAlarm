@@ -1,18 +1,11 @@
 package spencerdo.com.drugalarm.model;
 
 import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by doyonghoon on 2015. 8. 18..
  */
 public class DrugTimer extends RealmObject {
-
-  /**
-   * auto increment
-   * */
-  @PrimaryKey
-  private int primaryKey;
 
   /**
    * Name of the drug.
@@ -37,14 +30,6 @@ public class DrugTimer extends RealmObject {
 
   public void setFixedMinutes(int fixedMinutes) {
     this.fixedMinutes = fixedMinutes;
-  }
-
-  public int getPrimaryKey() {
-    return primaryKey;
-  }
-
-  public void setPrimaryKey(int primaryKey) {
-    this.primaryKey = primaryKey;
   }
 
   public long getNextAlarmTime() {

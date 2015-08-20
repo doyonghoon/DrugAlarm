@@ -136,15 +136,16 @@ public class CreateTimerActivity extends BaseActivity {
   }
 
   private boolean createDrugTimer(String name, int minutes) {
+    long nextTime = TimerUtils.createNextAlarmDate(minutes);
     Realm realm = Realm.getInstance(this);
-    // Transactions give you easy thread-safety
     realm.beginTransaction();
     DrugTimer timer = realm.createObject(DrugTimer.class);
     timer.setName(name);
     timer.setRepeatedCount(0);
     timer.setFixedMinutes(minutes);
-    timer.setNextAlarmTime(TimerUtils.createNextAlarmDate(minutes));
+    timer.setNextAlarmTime(nextTime);
     realm.commitTransaction();
+    TimerUtils.startAlarm(this, nextTime);
     return true;
   }
 }

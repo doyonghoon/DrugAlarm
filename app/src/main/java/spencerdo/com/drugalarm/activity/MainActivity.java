@@ -1,6 +1,5 @@
 package spencerdo.com.drugalarm.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import butterknife.Bind;
@@ -20,7 +19,7 @@ public class MainActivity extends BaseActivity {
   }
 
   private void setupActionbar() {
-    mToolbar.setTitle("");
+    mToolbar.setTitle("Timers");
     mToolbar.setTitleTextColor(getResources().getColor(R.color.primary_text));
     mToolbar.setSubtitleTextColor(getResources().getColor(R.color.secondary_text));
     setSupportActionBar(mToolbar);

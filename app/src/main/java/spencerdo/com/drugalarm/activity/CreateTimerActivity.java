@@ -18,10 +18,9 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import com.afollestad.materialdialogs.MaterialDialog;
 import io.realm.Realm;
-import java.util.Calendar;
-import java.util.Date;
 import spencerdo.com.drugalarm.R;
 import spencerdo.com.drugalarm.model.DrugTimer;
+import spencerdo.com.drugalarm.util.TimerUtils;
 
 /**
  * Created by doyonghoon on 2015. 8. 17..
@@ -142,16 +141,10 @@ public class CreateTimerActivity extends BaseActivity {
     realm.beginTransaction();
     DrugTimer timer = realm.createObject(DrugTimer.class);
     timer.setName(name);
-    timer.setCount(0);
-    timer.setMilliseconds(createNextAlarmDate(minutes));
+    timer.setRepeatedCount(0);
+    timer.setFixedMinutes(minutes);
+    timer.setNextAlarmTime(TimerUtils.createNextAlarmDate(minutes));
     realm.commitTransaction();
     return true;
-  }
-
-  private long createNextAlarmDate(int minutes) {
-    Calendar c = Calendar.getInstance();
-    c.setTime(new Date());
-    c.add(Calendar.MINUTE, minutes);
-    return c.getTime().getTime();
   }
 }

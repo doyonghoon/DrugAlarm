@@ -34,6 +34,22 @@
         android:textSize="16sp"
         android:textColor="@color/secondary_text"/>
 
+    <TextView
+        android:id="@+id/card_timer_fixed_minutes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="fixed minutes"
+        android:textSize="16sp"
+        android:textColor="@color/secondary_text"/>
+
+    <TextView
+        android:id="@+id/card_timer_repeat_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Repeated 0"
+        android:textSize="16sp"
+        android:textColor="@color/secondary_text"/>
+
     <Button
         android:id="@+id/card_timer_refresh"
         android:layout_width="wrap_content"
@@ -42,7 +58,6 @@
         android:textSize="16sp"
         android:padding="0dp"
         android:text="REFRESH"
-        android:gravity="left|center_vertical"
         android:textColor="@android:color/black"
         style="?attr/borderlessButtonStyle"/>
 

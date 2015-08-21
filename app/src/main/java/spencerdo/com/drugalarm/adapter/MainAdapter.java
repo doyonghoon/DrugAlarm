@@ -16,6 +16,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import spencerdo.com.drugalarm.R;
+import spencerdo.com.drugalarm.fragment.MainFragment;
 import spencerdo.com.drugalarm.model.DrugTimer;
 import spencerdo.com.drugalarm.util.TimerUtils;
 
@@ -24,9 +25,11 @@ import spencerdo.com.drugalarm.util.TimerUtils;
  */
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.TimerHolder> {
 
+  private MainFragment mFragment;
   private List<DrugTimer> mTimers;
 
-  public MainAdapter() {
+  public MainAdapter(MainFragment frag) {
+    mFragment = frag;
     mTimers = new ArrayList<>();
   }
 
@@ -71,9 +74,11 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.TimerHolder> {
           @Override public boolean onMenuItemClick(MenuItem item) {
             switch (item.getItemId()) {
               case R.id.card_timer_remove:
+                String name = mTimers.get(position).getName();
                 TimerUtils.removeTimer(v.getContext(), mTimers.get(position));
                 mTimers.remove(position);
                 notifyDataSetChanged();
+                mFragment.onRemoveTimer(name);
                 break;
             }
             return true;

@@ -3,7 +3,9 @@ package spencerdo.com.drugalarm.fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -15,6 +17,7 @@ import spencerdo.com.drugalarm.R;
 import spencerdo.com.drugalarm.activity.CreateTimerActivity;
 import spencerdo.com.drugalarm.adapter.MainAdapter;
 import spencerdo.com.drugalarm.model.DrugTimer;
+import spencerdo.com.drugalarm.util.WLog;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -23,6 +26,7 @@ public class MainFragment extends BaseFragment {
 
   private static final int CREATE_TIMER = 0;
 
+  @Bind(R.id.main_content) CoordinatorLayout mLayout;
   @Bind(R.id.main_create) FloatingActionButton mActionButton;
   @Bind(R.id.main_list) RecyclerView mList;
 
@@ -34,7 +38,7 @@ public class MainFragment extends BaseFragment {
 
   @Override public void onViewCreated(View view, Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    mAdapter = new MainAdapter();
+    mAdapter = new MainAdapter(this);
     setupCardRecyclerView();
   }
 
@@ -58,6 +62,15 @@ public class MainFragment extends BaseFragment {
         new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
     mList.setLayoutManager(linearLayoutManager);
     mList.setAdapter(mAdapter);
+  }
+
+  public void onRemoveTimer(final String name) {
+    WLog.i("removedName: " + name);
+    getActivity().runOnUiThread(new Runnable() {
+      @Override public void run() {
+        Snackbar.make(mLayout, name + " has been removed.", Snackbar.LENGTH_LONG).show();
+      }
+    });
   }
 
   private List<DrugTimer> getTimers() {

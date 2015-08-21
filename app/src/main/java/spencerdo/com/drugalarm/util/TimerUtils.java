@@ -44,4 +44,12 @@ public class TimerUtils {
     AlarmManager m = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
     m.set(AlarmManager.RTC_WAKEUP, milliseconds, alarmIntent);
   }
+
+  public static DrugTimer removeTimer(Context c, DrugTimer t) {
+    Realm realm = Realm.getInstance(c);
+    realm.beginTransaction();
+    realm.where(DrugTimer.class).equalTo("name", t.getName()).findFirst().removeFromRealm();
+    realm.commitTransaction();
+    return t;
+  }
 }

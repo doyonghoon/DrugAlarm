@@ -1,10 +1,13 @@
 package spencerdo.com.drugalarm.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -48,7 +51,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.TimerHolder> {
         .getNextAlarmTime(), isOver));
     holder.mMinutes.setTextColor(holder.getContext()
         .getResources()
-        .getColor(isOver ? R.color.red : R.color.secondary_text));
+        .getColor(R.color.secondary_text));
     holder.mFixedMinutes.setText(String.format(holder.getContext()
         .getString(R.string.card_text_template_fixed_minutes), mTimers.get(position)
         .getFixedMinutes()));
@@ -60,6 +63,25 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.TimerHolder> {
         notifyDataSetChanged();
       }
     });
+    holder.mMore.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(final View v) {
+        PopupMenu p = new PopupMenu(v.getContext(), v);
+        p.getMenuInflater().inflate(R.menu.menu_card_more, p.getMenu());
+        p.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+          @Override public boolean onMenuItemClick(MenuItem item) {
+            switch (item.getItemId()) {
+              case R.id.card_timer_remove:
+                TimerUtils.removeTimer(v.getContext(), mTimers.get(position));
+                mTimers.remove(position);
+                notifyDataSetChanged();
+                break;
+            }
+            return true;
+          }
+        });
+        p.show();
+      }
+    });
   }
 
   @Override public int getItemCount() {
@@ -68,9 +90,16 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.TimerHolder> {
 
   private String getMinites(Context c, long milliseconds, boolean isOver) {
     long now = Calendar.getInstance().getTime().getTime();
-    long minutes = now - milliseconds;
-    return String.format(c.getString(isOver ? R.string.card_text_over_minutes
-        : R.string.card_text_remaining_minutes), Math.abs(TimeUnit.MILLISECONDS.toMinutes(minutes)));
+    int totalMinutes = (int) Math.abs(TimeUnit.MILLISECONDS.toMinutes(now - milliseconds));
+    int remainingHours = totalMinutes / 60;
+    int remainingMinutes = totalMinutes % 60;
+    if (remainingHours > 0) {
+      return String.format(c.getString(isOver ? R.string.card_text_over_hours_and_minutes
+          : R.string.card_text_remaining_hours_and_minutes), remainingHours, remainingMinutes);
+    } else {
+      return String.format(c.getString(isOver ? R.string.card_text_over_minutes
+          : R.string.card_text_remaining_minutes), remainingMinutes);
+    }
   }
 
   public static class TimerHolder extends RecyclerView.ViewHolder {
@@ -80,6 +109,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.TimerHolder> {
     @Bind(R.id.card_timer_refresh) TextView mRefreshButton;
     @Bind(R.id.card_timer_repeat_count) TextView mRepeatedCount;
     @Bind(R.id.card_timer_fixed_minutes) TextView mFixedMinutes;
+    @Bind(R.id.card_timer_more) ImageView mMore;
 
     private Context mContext;
 

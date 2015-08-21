@@ -5,7 +5,9 @@
   <string name="card_text_template_fixed_minutes">alarm every %d minutes after</string>
   <string name="card_text_repeated_count">%d times repeated</string>
   <string name="card_text_remaining_minutes">%d minutes left</string>
+  <string name="card_text_remaining_hours_and_minutes">%1$d hours and %2$d minutes left</string>
   <string name="card_text_over_minutes">%d minutes over</string>
+  <string name="card_text_over_hours_and_minutes">%1$d hours and %2$d minutes over</string>
   <string name="refresh">REFRESH</string>
 
 </resources>

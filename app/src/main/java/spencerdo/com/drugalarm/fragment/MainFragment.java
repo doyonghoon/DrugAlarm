@@ -62,6 +62,6 @@ public class MainFragment extends BaseFragment {
 
   private List<DrugTimer> getTimers() {
     Realm realm = Realm.getInstance(getActivity());
-    return realm.where(DrugTimer.class).findAll();
+    return realm.where(DrugTimer.class).findAllSorted("nextAlarmTime", true);
   }
 }

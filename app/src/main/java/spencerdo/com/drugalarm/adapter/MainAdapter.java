@@ -41,15 +41,17 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.TimerHolder> {
   }
 
   @Override public void onBindViewHolder(TimerHolder holder, final int position) {
+    boolean isOver =
+        mTimers.get(position).getNextAlarmTime() < Calendar.getInstance().getTime().getTime();
     holder.mName.setText(mTimers.get(position).getName());
     holder.mMinutes.setText(getMinites(holder.getContext(), mTimers.get(position)
-        .getNextAlarmTime()));
+        .getNextAlarmTime(), isOver));
     holder.mMinutes.setTextColor(holder.getContext()
         .getResources()
-        .getColor(
-            mTimers.get(position).getNextAlarmTime() < Calendar.getInstance().getTime().getTime()
-                ? R.color.red : R.color.secondary_text));
-    holder.mFixedMinutes.setText(mTimers.get(position).getFixedMinutes() + " fixed minutes");
+        .getColor(isOver ? R.color.red : R.color.secondary_text));
+    holder.mFixedMinutes.setText(String.format(holder.getContext()
+        .getString(R.string.card_text_template_fixed_minutes), mTimers.get(position)
+        .getFixedMinutes()));
     holder.mRepeatedCount.setText(mTimers.get(position).getRepeatedCount() + " repeated");
     holder.mRefreshButton.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
@@ -64,10 +66,11 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.TimerHolder> {
     return mTimers.size();
   }
 
-  private String getMinites(Context c, long milliseconds) {
+  private String getMinites(Context c, long milliseconds, boolean isOver) {
     long now = Calendar.getInstance().getTime().getTime();
     long minutes = now - milliseconds;
-    return String.format(c.getString(R.string.card_text_remaining_minutes), TimeUnit.MILLISECONDS.toMinutes(minutes));
+    return String.format(c.getString(isOver ? R.string.card_text_over_minutes
+        : R.string.card_text_remaining_minutes), Math.abs(TimeUnit.MILLISECONDS.toMinutes(minutes)));
   }
 
   public static class TimerHolder extends RecyclerView.ViewHolder {

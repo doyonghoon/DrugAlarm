@@ -23,7 +23,8 @@
         android:layout_margin="16dp"
         android:src="@mipmap/ic_alarm_add_white_24dp"
         app:layout_anchor="@id/main_list"
-        app:layout_anchorGravity="bottom|right|end"/>
+        app:layout_anchorGravity="bottom|right|end"
+        app:layout_behavior="spencerdo.com.drugalarm.ScrollAwareFABBehavior"/>
   </android.support.design.widget.CoordinatorLayout>
 
 </RelativeLayout>
